@@ -1,0 +1,28 @@
+{
+    "adhd": [
+        "A criança frequentemente tem dificuldade em prestar atenção a detalhes ou comete erros por descuido?",
+        "A criança frequentemente parece não escutar quando falam diretamente com ela?",
+        "A criança frequentemente tem dificuldade em organizar tarefas e atividades?",
+        "A criança frequentemente evita ou reluta em se envolver em tarefas que exigem esforço mental prolongado?",
+        "A criança frequentemente perde objetos necessários para tarefas e atividades (como materiais escolares, brinquedos, etc.)?",
+        "A criança frequentemente se distrai facilmente com estímulos externos?",
+        "A criança frequentemente mexe as mãos ou os pés de maneira inquieta ou se remexe na cadeira?",
+        "A criança frequentemente corre ou sobe em objetos em situações inadequadas?",
+        "A criança frequentemente tem dificuldade em esperar a sua vez em situações sociais?",
+        "A criança frequentemente interrompe ou se intromete nas conversas ou atividades de outras pessoas?"
+    ],
+    "asd": [
+        
+        "A criança evita ou não mantém contato visual com outras pessoas?",
+        "A criança tem dificuldade em entender expressões faciais ou emoções dos outros?",
+        "A criança apresenta comportamentos repetitivos, como balançar as mãos ou girar objetos?",
+        "A criança prefere brincar sozinha em vez de interagir com outras crianças?",
+        "A criança tem interesse intenso e focado em um tema específico, falando sobre ele repetidamente?",
+        "A criança tem resistência a mudanças na rotina e se sente desconfortável com alterações inesperadas?",
+        "A criança tem dificuldade em compreender regras sociais, como esperar sua vez em uma conversa?",
+        "A criança repete frases ou palavras sem um contexto claro (ecolalia)?",
+        "A criança demonstra pouca expressão facial ou variação no tom de voz ao falar?",
+        "A criança apresenta sensibilidade excessiva a sons, luzes ou texturas?"
+          
+    ]
+}

@@ -1,0 +1,67 @@
+import { Identifier } from './../../node_modules/acorn/dist/acorn.d';
+import { Request, Response } from "express";
+import { userSvc } from "..";
+import express from 'express';
+import { CreateKidDto, CreateUserDto } from "../entities/user";
+
+export const createUsers = async (req: Request, res: Response) => {
+    const dto = req.body as CreateUserDto
+    const result = await  userSvc.createUser(dto)
+
+    res.status(201).json(result)
+}
+
+export const createKids = async (req: Request, res: Response) => {
+
+    const dto = req.body as CreateKidDto
+    const result = await userSvc.createKid(dto)
+
+    res.status(201).json(result)
+}
+
+export const getUser = async (req: Request, res: Response) => {
+    const { id } = req.params
+    const result = await userSvc.getUser(id)
+    res.status(200).json(result)
+}
+
+const getUsers = async (req: Request, res: Response) => {
+
+        const { page = "1", limit = "10", email, name, role } = req.query;
+
+        const users = await userSvc.getUsers(
+            Number(page),
+            Number(limit),
+            { email: email as string, name: name as string, role: role as string }
+        );
+
+        res.status(200).json(users);
+}
+
+export const getKid = async (req: Request, res: Response) => {
+    const { kid } = req.params
+    const result = await userSvc.getKid(kid)
+    res.status(200).json(result)
+}
+
+const getKids = async (req: Request, res: Response) => {
+   
+        const { page = "1", limit = "10", name, parentId } = req.query;
+
+        const kids = await userSvc.getKids(
+            Number(page),
+            Number(limit),
+            { name: name as string, parentId: parentId as string }
+        );
+
+        res.status(200).json(kids);
+    
+}
+export const usersRouter = express.Router()
+
+usersRouter.post("", createUsers)
+usersRouter.get("/:id", getUser)
+usersRouter.get("/", getUsers)
+usersRouter.post("/:id/kids", createKids)
+usersRouter.get("/:id/kids/:kid", getKid)
+usersRouter.get("/:id/kids", getKids)
