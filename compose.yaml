@@ -25,7 +25,7 @@ services:
 #       db:
 #         condition: service_healthy
   db:
-    image: postgres
+    image: timescale/timescaledb-ha:pg14-latest
     restart: always
     user: postgres
     secrets:
