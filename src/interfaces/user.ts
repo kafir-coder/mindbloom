@@ -25,6 +25,8 @@ export interface IUserSvc {
         currentPage: number;
     }>
 
+    updateKid(id: string, kid: Partial<Kid>): Promise<void>
+
     getParentKids(id: string): Promise<Kid[]>
 }
 
@@ -52,6 +54,8 @@ export interface IUserRepository {
         totalPages: number,
         currentPage: number
     }>
+
+    updateKid(id: string, kid: Partial<Kid>): Promise<void>
 
     getParentKids(id: string): Promise<Kid[]>
 }

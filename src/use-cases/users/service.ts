@@ -4,6 +4,7 @@ import { CreateUserDto, CreateKidDto } from "../../entities/user";
 import { IUserSvc, IUserRepository } from "../../interfaces/user";
 import bcrypt, { genSalt } from 'bcryptjs'
 import crypto from 'crypto';
+import { CustomError } from "../../errors/errors";
 
 export class UserSvc implements IUserSvc {
     constructor(
@@ -11,10 +12,13 @@ export class UserSvc implements IUserSvc {
     ) {}
     async createUser(dto: CreateUserDto): Promise<User> {
 
+        if (dto.password.trim() == "") {
+            throw new CustomError("password is empty", 400)
+        }
         const user = await this.userRepository.getUserByEmail(dto.email)
 
         if (user) {
-            throw new Error("user already exists")
+            throw new CustomError("user already exists", 400)
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -43,8 +47,12 @@ export class UserSvc implements IUserSvc {
 
         return this.getKid(id)
     }
-    getUser(id: string): Promise<User> {    
-        return this.userRepository.getUser(id)
+    async getUser(id: string): Promise<User> {    
+        const user =  this.userRepository.getUser(id)
+        if (!user) {
+            throw new CustomError("user does not exists", 404)
+        }
+        return user
     }
 
     async getUsers(
@@ -55,8 +63,12 @@ export class UserSvc implements IUserSvc {
         return this.userRepository.listUsers(page, limit, filters);
     }
 
-    getKid(id: string): Promise<Kid> {
-        return this.userRepository.getKid(id)
+    async getKid(id: string): Promise<Kid> {
+        const kid = await  this.userRepository.getKid(id)
+        if (!kid) {
+            throw new CustomError("kid does not exists", 404)
+        }
+        return kid
     }
 
     async getKids(
@@ -65,6 +77,13 @@ export class UserSvc implements IUserSvc {
         filters?: { name?: string; parentId?: string }
     ) {
         return this.userRepository.listKids(page, limit, filters);
+    }
+
+    async updateKid(
+        kid_id: string,
+        kid: Partial<User>
+    ) {
+        return this.userRepository.updateKid(kid_id, kid)
     }
     getParentKids(id: string): Promise<Kid[]> {
         return this.userRepository.getParentKids(id)

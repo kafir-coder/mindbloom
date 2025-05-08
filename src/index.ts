@@ -18,6 +18,7 @@ import { messageRouter } from "./controllers/message";
 import { AuthService } from "./use-cases/authentication/service";
 import { authRouter } from "./controllers/auth";
 import { authenticateJWT } from "./use-cases/authentication/auth.middleware";
+import { errorHandler } from "./middleware/error";
 const app = express();
 
 export let diagnosisSvc: IDiagnosisSvc;
@@ -66,6 +67,8 @@ const init = async () => {
     app.use("/users", usersRouter)
     app.use("/messages", authenticateJWT, messageRouter)
     app.use("/auth", authRouter)
+
+    app.use(errorHandler)
 
     app.listen(PORT, () => {
         console.log(`Server is running on port ${config.port}`);

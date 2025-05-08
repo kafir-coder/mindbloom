@@ -1,14 +1,18 @@
-import { Identifier } from './../../node_modules/acorn/dist/acorn.d';
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { userSvc } from "..";
 import express from 'express';
 import { CreateKidDto, CreateUserDto } from "../entities/user";
 
-export const createUsers = async (req: Request, res: Response) => {
-    const dto = req.body as CreateUserDto
-    const result = await  userSvc.createUser(dto)
-
-    res.status(201).json(result)
+export const createUsers = async (req: Request, res: Response, next: NextFunction) => {
+   try {
+        const dto = req.body as CreateUserDto
+        const result = await  userSvc.createUser(dto)
+        res.status(201).json(result)
+   } catch (error) {
+    console.log(error)
+    
+    next(error)
+   }
 }
 
 export const createKids = async (req: Request, res: Response) => {

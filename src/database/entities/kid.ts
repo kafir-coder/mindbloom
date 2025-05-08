@@ -20,4 +20,9 @@ export class Kid extends Base {
 
   @OneToOne(() => ASDDiagnosis, (asdDiagnosis) => asdDiagnosis.kid, { nullable: true })
   asdDiagnosis: ASDDiagnosis;
+
+  @Column()
+  asdDiagnosisPercertage: number
+  @Column()
+  adhdDiagnosisPercentage: number
 }

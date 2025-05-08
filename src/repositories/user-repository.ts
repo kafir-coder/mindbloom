@@ -88,6 +88,10 @@ export class UserRepository implements IUserRepository {
         };
     }
 
+    async updateKid(id: string, kid: Partial<Kid>): Promise<void> {
+        await this.kidRepository.update(id, kid)
+    }
+
     getParentKids(id: string): Promise<Kid[]> {
         return this.kidRepository.find({
             where: {parent: {id}}
