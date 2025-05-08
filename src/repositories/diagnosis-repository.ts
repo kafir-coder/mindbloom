@@ -19,13 +19,11 @@ export class DiagnosisRepository implements IDiagnosisRepository {
 
     getASDTest(kid_id: string): Promise<ASDDiagnosis | null> {
         return this.asdDiagnosisRepository.findOne({
-            where: {kid: {id: kid_id}},
             relations: ["kid"]
         })
     }
     getADHDTest(kid_id: string): Promise<ADHDDiagnosis | null> {
         return this.adhdDiagnosisRepository.findOne({
-            where: {kid: {id: kid_id}},
             relations: ["kid"]
         })
     }

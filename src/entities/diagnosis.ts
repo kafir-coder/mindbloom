@@ -16,8 +16,6 @@ export enum AnswerWeight {
 @Entity()
 export class ASDDiagnosis extends Base {
 
-  @ManyToOne(() => Kid, (kid) => kid.asdDiagnosis)
-  kid: Kid;
 
   @Column({ type: "date" })
   diagnosisDate: Date;
@@ -45,8 +43,7 @@ export class ASDDiagnosis extends Base {
 @Entity()
 export class ADHDDiagnosis extends Base{
 
-    @ManyToOne(() => Kid, (kid) => kid.adhdDiagnosis)
-    kid: Kid;
+
   
     @Column({ type: "date" })
     diagnosisDate: Date;
