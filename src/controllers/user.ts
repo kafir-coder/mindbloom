@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { userSvc } from "..";
 import express from 'express';
 import { CreateKidDto, CreateUserDto } from "../entities/user";
+import { Kid } from "../database/entities/kid";
 
 export const createUsers = async (req: Request, res: Response, next: NextFunction) => {
    try {
@@ -61,6 +62,15 @@ const getKids = async (req: Request, res: Response) => {
         res.status(200).json(kids);
     
 }
+
+const updateKid = async (req: Request, res: Response) => {
+
+        const { kid } = req.params
+        const dto = req.body as Kid
+        const result = await  userSvc.updateKid(kid, dto)
+        res.status(201).json(result)
+
+}
 export const usersRouter = express.Router()
 
 usersRouter.post("", createUsers)
@@ -69,3 +79,4 @@ usersRouter.get("/", getUsers)
 usersRouter.post("/:id/kids", createKids)
 usersRouter.get("/:id/kids/:kid", getKid)
 usersRouter.get("/:id/kids", getKids)
+usersRouter.patch(":id/kids/:kid", updateKid)

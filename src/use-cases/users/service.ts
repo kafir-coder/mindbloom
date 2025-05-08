@@ -43,6 +43,8 @@ export class UserSvc implements IUserSvc {
             name: dto.name,
             dateOfBirth: dto.dateofBirth,
             parent,
+            asdDiagnosisPercertage: 0,
+            adhdDiagnosisPercentage: 0
         })
 
         return this.getKid(id)
