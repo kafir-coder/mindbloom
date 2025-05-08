@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToOne, OneToOne } from "typeorm";
 import { User } from "./user";
-import { ADHDDiagnosis, ASDDiagnosis } from "../../entities/diagnosis";
 import { Base } from "../../utils/common/entities/base";
 
 @Entity()
