@@ -15,11 +15,7 @@ export class Kid extends Base {
   @ManyToOne(() => User, (user) => user.kids)
   parent: User;
 
-  @OneToOne(() => ADHDDiagnosis, (adhdDiagnosis) => adhdDiagnosis.kid, { nullable: true })
-  adhdDiagnosis: ADHDDiagnosis;
 
-  @OneToOne(() => ASDDiagnosis, (asdDiagnosis) => asdDiagnosis.kid, { nullable: true })
-  asdDiagnosis: ASDDiagnosis;
 
   @Column()
   asdDiagnosisPercertage: number
