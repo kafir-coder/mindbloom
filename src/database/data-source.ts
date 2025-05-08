@@ -20,7 +20,7 @@ export const AppDataSource = new DataSource({
     entities: [User, Kid, ADHDDiagnosis, ASDDiagnosis, Question, Message],
     subscribers: [],
     migrations: [""],
-    ssl: false
+    ssl: process.env.SSL == "true"
 })
 
 AppDataSource.initialize()
