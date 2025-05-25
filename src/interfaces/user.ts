@@ -13,6 +13,10 @@ export interface IUserSvc {
         totalPages: number,
         currentPage: number
     }>
+     updateUser(
+        user_id: string,
+        user: Partial<User>
+    ): Promise<User> 
     getKid(id: string): Promise<Kid>
     getKids(
         page: number,
@@ -41,6 +45,9 @@ export interface IUserRepository {
         totalPages: number,
         currentPage: number
     }>
+
+    updateUser(id: string, user: Partial<User>): Promise<void>;
+
 
     getUserByEmail(email: string): Promise<User | null>
     getKid(id: string): Promise<Kid>

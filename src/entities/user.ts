@@ -9,4 +9,5 @@ export type CreateUserDto = {
     email: string
     password: string
     role: "Parent" | "Psychologist"
+    genre: string
 }

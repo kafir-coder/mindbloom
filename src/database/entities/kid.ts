@@ -10,7 +10,7 @@ export class Kid extends Base {
 
   @Column({ type: "date" })
   dateOfBirth: Date;
-
+  
   @ManyToOne(() => User, (user) => user.kids)
   parent: User;
 

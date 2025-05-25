@@ -12,6 +12,11 @@ export class UserRepository implements IUserRepository {
         this.userRepository = AppDataSource.getRepository(User)
         this.kidRepository = AppDataSource.getRepository(Kid)
     }
+    
+    async updateUser(id: string, user: Partial<User>): Promise<void> {
+        await this.userRepository.update(id, user);
+    }
+    
     getUserByEmail(email: string): Promise<User | null> {
         return this.userRepository.findOneBy({
             email

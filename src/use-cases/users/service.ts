@@ -31,10 +31,36 @@ export class UserSvc implements IUserSvc {
             email: dto.email, 
             role: dto.role,
             passwordHash,
+            genre: dto.genre
         })
 
         return this.getUser(id)
     }
+
+    async updateUser(
+        user_id: string,
+        user: Partial<User>
+    ): Promise<User> {
+        const existing = await this.userRepository.getUser(user_id);
+        if (!existing) {
+            throw new CustomError("user does not exist", 404);
+        }
+    
+        if (user.email && user.email !== existing.email) {
+            const userWithSameEmail = await this.userRepository.getUserByEmail(user.email);
+            if (userWithSameEmail && userWithSameEmail.id !== user_id) {
+                throw new CustomError("email already in use", 400);
+            }
+        }
+    
+        if (user.passwordHash) {
+            throw new CustomError("cannot directly update password hash", 400);
+        }
+    
+        await this.userRepository.updateUser(user_id, user);
+        return this.getUser(user_id);
+    }
+    
     async createKid(dto: CreateKidDto): Promise<Kid> {
         const id = crypto.randomUUID();
         const parent = await this.getUser(dto.parent_id)

@@ -30,6 +30,18 @@ export const getUser = async (req: Request, res: Response) => {
     res.status(200).json(result)
 }
 
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const dto = req.body as Partial<CreateUserDto>; // assuming a partial update
+        const result = await userSvc.updateUser(id, dto);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
 const getUsers = async (req: Request, res: Response) => {
 
         const { page = "1", limit = "10", email, name, role } = req.query;
@@ -75,6 +87,7 @@ export const usersRouter = express.Router()
 
 usersRouter.post("", createUsers)
 usersRouter.get("/:id", getUser)
+usersRouter.patch("/:id", updateUser);
 usersRouter.get("/", getUsers)
 usersRouter.post("/:id/kids", createKids)
 usersRouter.get("/:id/kids/:kid", getKid)
