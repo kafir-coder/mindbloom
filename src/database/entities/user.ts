@@ -23,7 +23,7 @@ export class User extends Base {
   isActive: boolean;
 
   @Column()
-  genre: string
+  gender: string
 
   @OneToMany(() => Kid, (kid) => kid.parent)
   kids: Kid[];

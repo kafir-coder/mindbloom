@@ -13,7 +13,7 @@ export class AuthService {
         this.userRepo = new UserRepository();
     }
 
-    async login(email: string, password: string): Promise<{token: string, id: string} | null> {
+    async login(email: string, password: string): Promise<{token: string, id: string, role: string} | null> {
         const user = await this.userRepo.getUserByEmail(email);
 
         if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
@@ -22,7 +22,8 @@ export class AuthService {
 
         return {
             token: jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: JWT_EXPIRATION }),
-            id: user.id
+            id: user.id,
+            role: user.role
         };
     }
 

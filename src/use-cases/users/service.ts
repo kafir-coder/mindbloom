@@ -31,7 +31,7 @@ export class UserSvc implements IUserSvc {
             email: dto.email, 
             role: dto.role,
             passwordHash,
-            genre: dto.genre
+            gender: dto.gender
         })
 
         return this.getUser(id)
