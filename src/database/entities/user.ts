@@ -44,5 +44,6 @@ export class User extends Base {
   @Column({nullable: true})
   occupation: string
 
-
+  @Column({nullable: true})
+  socials: string
 }

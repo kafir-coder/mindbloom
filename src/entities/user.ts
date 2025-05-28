@@ -15,4 +15,5 @@ export type CreateUserDto = {
     description: string
     image: string
     occupation: string
+    socials: string
 }

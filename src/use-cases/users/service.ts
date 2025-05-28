@@ -35,6 +35,7 @@ export class UserSvc implements IUserSvc {
             description: dto.description,
             image: dto.image,
             occupation: dto.occupation,
+            socials: dto.socials
         })
 
         return this.getUser(id)
