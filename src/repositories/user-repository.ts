@@ -71,13 +71,14 @@ export class UserRepository implements IUserRepository {
     async listKids(
         page: number = 1,
         limit: number = 10,
-        filters?: { name?: string; parentId?: string }
+        parentId: string,
+        filters?: { name?: string }
     ) {
         const offset = (page - 1) * limit;
 
         const where: any = {};
         if (filters?.name) where.name = ILike(`%${filters.name}%`);
-        if (filters?.parentId) where.parent = { id: filters.parentId };
+        if (parentId) where.parent = { id: parentId };
 
         const [kids, totalCount] = await this.kidRepository.findAndCount({
             where,

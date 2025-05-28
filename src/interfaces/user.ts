@@ -21,7 +21,8 @@ export interface IUserSvc {
     getKids(
         page: number,
         limit: number,
-        filters?: { name?: string; parentId?: string }
+        parentId?: string,
+        filters?: { name?: string }
     ): Promise<{
         data: Kid[];
         totalCount: number;
@@ -55,7 +56,8 @@ export interface IUserRepository {
     listKids(
         page: number,
         limit: number,
-        filters?: { name?: string; parentId?: string }
+        parentId: string,
+        filters?: { name?: string; }
     ): Promise<{
         data: Kid[],
         totalCount: number,

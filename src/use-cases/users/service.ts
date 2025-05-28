@@ -107,9 +107,10 @@ export class UserSvc implements IUserSvc {
     async getKids(
         page: number = 1,
         limit: number = 10,
-        filters?: { name?: string; parentId?: string }
+        parentId: string,
+        filters?: { name?: string }
     ) {
-        return this.userRepository.listKids(page, limit, filters);
+        return this.userRepository.listKids(page, limit, parentId, filters);
     }
 
     async updateKid(
