@@ -40,4 +40,9 @@ export class User extends Base {
 
   @Column({nullable: true})
   image: string
+
+  @Column({nullable: true})
+  occupation: string
+
+
 }

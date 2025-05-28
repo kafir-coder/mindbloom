@@ -33,7 +33,8 @@ export class UserSvc implements IUserSvc {
             passwordHash,
             gender: dto.gender,
             description: dto.description,
-            image: dto.image
+            image: dto.image,
+            occupation: dto.occupation,
         })
 
         return this.getUser(id)
@@ -74,7 +75,6 @@ export class UserSvc implements IUserSvc {
             asdDiagnosisPercertage: 0,
             adhdDiagnosisPercentage: 0,
             gender: dto.gender,
-            occupation: dto.occupation
         })
 
         return this.getKid(id)

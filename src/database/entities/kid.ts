@@ -26,4 +26,7 @@ export class Kid extends Base {
 
   @Column({nullable: true})
   occupation: string
+
+  @Column({nullable: true})
+  image: string
 }
