@@ -32,6 +32,7 @@ export interface IUserSvc {
     updateKid(id: string, kid: Partial<Kid>): Promise<void>
 
     getParentKids(id: string): Promise<Kid[]>
+    addUserRating(user_id: string, newRating: number): Promise<void>
 }
 
 export interface IUserRepository {

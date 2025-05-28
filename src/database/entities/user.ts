@@ -27,4 +27,17 @@ export class User extends Base {
 
   @OneToMany(() => Kid, (kid) => kid.parent)
   kids: Kid[];
+
+
+  @Column({nullable: true})
+  description: string
+
+  @Column({nullable: true, type: 'double precision'})
+  rating: number
+
+  @Column({nullable: true})
+  ratingCount: number
+
+  @Column({nullable: true})
+  image: string
 }

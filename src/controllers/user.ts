@@ -83,12 +83,29 @@ const updateKid = async (req: Request, res: Response) => {
         res.status(201).json(result)
 
 }
+
+export const rateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { rating } = req.body;
+
+      
+
+        const result = await userSvc.addUserRating(id, rating);
+        res.sendStatus(200)
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
 export const usersRouter = express.Router()
 
 usersRouter.post("", createUsers)
 usersRouter.get("/:id", getUser)
 usersRouter.patch("/:id", updateUser);
 usersRouter.get("/", getUsers)
+usersRouter.post("/:id/rating", rateUser);
 usersRouter.post("/:id/kids", createKids)
 usersRouter.get("/:id/kids/:kid", getKid)
 usersRouter.get("/:id/kids", getKids)

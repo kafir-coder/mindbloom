@@ -31,7 +31,9 @@ export class UserSvc implements IUserSvc {
             email: dto.email, 
             role: dto.role,
             passwordHash,
-            gender: dto.gender
+            gender: dto.gender,
+            description: dto.description,
+            image: dto.image
         })
 
         return this.getUser(id)
@@ -70,7 +72,8 @@ export class UserSvc implements IUserSvc {
             dateOfBirth: dto.dateofBirth,
             parent,
             asdDiagnosisPercertage: 0,
-            adhdDiagnosisPercentage: 0
+            adhdDiagnosisPercentage: 0,
+            gender: dto.gender
         })
 
         return this.getKid(id)
@@ -116,4 +119,26 @@ export class UserSvc implements IUserSvc {
     getParentKids(id: string): Promise<Kid[]> {
         return this.userRepository.getParentKids(id)
     }
+
+    async addUserRating(user_id: string, newRating: number): Promise<void> {
+        if (newRating < 0 || newRating > 5) {
+            throw new CustomError("rating must be between 0 and 5", 400);
+        }
+    
+        const user = await this.userRepository.getUser(user_id);
+        if (!user) {
+            throw new CustomError("user does not exist", 404);
+        }
+    
+        const totalRating = (user.rating || 0) * (user.ratingCount || 0);
+        const updatedRatingCount = (user.ratingCount || 0) + 1;
+        const updatedAverage = (totalRating + newRating) / updatedRatingCount;
+    
+        await this.userRepository.updateUser(user_id, {
+            rating: updatedAverage,
+            ratingCount: updatedRatingCount
+        });
+
+    }
+    
 }
