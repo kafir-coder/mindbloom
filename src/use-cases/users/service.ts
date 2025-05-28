@@ -73,7 +73,8 @@ export class UserSvc implements IUserSvc {
             parent,
             asdDiagnosisPercertage: 0,
             adhdDiagnosisPercentage: 0,
-            gender: dto.gender
+            gender: dto.gender,
+            occupation: dto.occupation
         })
 
         return this.getKid(id)

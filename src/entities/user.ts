@@ -3,6 +3,7 @@ export type CreateKidDto = {
     dateofBirth: Date
     parent_id: string
     gender: string
+    occupation: string
 }
 
 export type CreateUserDto = {

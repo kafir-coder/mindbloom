@@ -21,6 +21,9 @@ export class Kid extends Base {
   @Column()
   adhdDiagnosisPercentage: number
 
-  @Column()
+  @Column({nullable: true})
   gender: string
+
+  @Column({nullable: true})
+  occupation: string
 }
