@@ -20,14 +20,23 @@ export class MessageRepository implements IMessageRepository {
     }
 
     async getMessages(parentId: string, psychologistId: string): Promise<Message[]> {
-        return await this.repo.find({
-            where: [
-                { sender: { id: parentId }, receiver: { id: psychologistId } },
-                { sender: { id: psychologistId }, receiver: { id: parentId } },
-            ],
-            relations: ['receiver.id', "sender.id"],
-            order: { created_at: "ASC" }
-        });
+        return await this.repo.createQueryBuilder('message')
+        .select([
+          'message.id',
+          'message.content',
+          'message.created_at',
+          'sender.id',
+          'receiver.id'
+        ])
+        .leftJoin('message.sender', 'sender')
+        .leftJoin('message.receiver', 'receiver')
+        .where(
+          '(sender.id = :parentId AND receiver.id = :psychologistId) OR ' +
+          '(sender.id = :psychologistId AND receiver.id = :parentId)',
+          { parentId, psychologistId }
+        )
+        .orderBy('message.created_at', 'ASC')
+        .getMany();      
     }
 
     async getUserChats(userId: string): Promise<{
