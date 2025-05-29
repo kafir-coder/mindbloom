@@ -65,7 +65,7 @@ const init = async () => {
 
     app.use("/diagnosis" ,diagnosisRouter)
     app.use("/users", usersRouter)
-    app.use("/messages", authenticateJWT, messageRouter)
+    app.use("/messages", messageRouter)
     app.use("/auth", authRouter)
 
     app.use(errorHandler)
