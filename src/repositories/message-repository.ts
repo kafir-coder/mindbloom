@@ -25,6 +25,7 @@ export class MessageRepository implements IMessageRepository {
                 { sender: { id: parentId }, receiver: { id: psychologistId } },
                 { sender: { id: psychologistId }, receiver: { id: parentId } },
             ],
+            relations: ['receiver', "sender"],
             order: { created_at: "ASC" }
         });
     }
