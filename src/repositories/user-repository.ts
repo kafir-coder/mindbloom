@@ -83,7 +83,8 @@ export class UserRepository implements IUserRepository {
         const [kids, totalCount] = await this.kidRepository.findAndCount({
             where,
             take: limit,
-            skip: offset
+            skip: offset,
+            relations: ['parent']
         });
 
         return {
