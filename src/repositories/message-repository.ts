@@ -53,9 +53,9 @@ export class MessageRepository implements IMessageRepository {
                      ELSE 'Parent'
                    END AS "userType",
                    content AS "lastMessage",
-                   "createdAt"
+                   "created_at"
             FROM user_messages
-            ORDER BY "chatUserId", "createdAt" DESC
+            ORDER BY "chatUserId", "created_at" DESC
           )
           SELECT lm."userId",
                  lm."userType",
