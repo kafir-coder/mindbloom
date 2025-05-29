@@ -22,7 +22,7 @@ export interface IUserSvc {
         page: number,
         limit: number,
         parentId?: string,
-        filters?: { name?: string }
+        filters?: { name?: string, all: boolean }
     ): Promise<{
         data: Kid[];
         totalCount: number;
@@ -57,7 +57,7 @@ export interface IUserRepository {
         page: number,
         limit: number,
         parentId: string,
-        filters?: { name?: string; }
+        filters?: { name?: string; all: boolean }
     ): Promise<{
         data: Kid[],
         totalCount: number,

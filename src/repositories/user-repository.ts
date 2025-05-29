@@ -72,13 +72,13 @@ export class UserRepository implements IUserRepository {
         page: number = 1,
         limit: number = 10,
         parentId: string,
-        filters?: { name?: string }
+        filters?: { name?: string, all: boolean}
     ) {
         const offset = (page - 1) * limit;
 
         const where: any = {};
         if (filters?.name) where.name = ILike(`%${filters.name}%`);
-        if (parentId) where.parent = { id: parentId };
+        if (parentId && !filters?.all) where.parent = { id: parentId };
 
         const [kids, totalCount] = await this.kidRepository.findAndCount({
             where,

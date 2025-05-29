@@ -64,13 +64,13 @@ export const getKid = async (req: Request, res: Response) => {
 const getKids = async (req: Request, res: Response) => {
    
         const parentId = req.params['id']
-        const { page = "1", limit = "10", name } = req.query;
+        const { page = "1", limit = "10", name, all } = req.query;
 
         const kids = await userSvc.getKids(
             Number(page),
             Number(limit),
             parentId,
-            { name: name as string }
+            { name: name as string, all: all as unknown as boolean}
         );
 
         res.status(200).json(kids);

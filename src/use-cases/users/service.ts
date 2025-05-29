@@ -108,7 +108,7 @@ export class UserSvc implements IUserSvc {
         page: number = 1,
         limit: number = 10,
         parentId: string,
-        filters?: { name?: string }
+        filters?: { name?: string, all: boolean }
     ) {
         return this.userRepository.listKids(page, limit, parentId, filters);
     }
