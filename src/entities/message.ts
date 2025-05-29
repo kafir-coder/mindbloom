@@ -11,7 +11,7 @@ export class Message extends Base {
     @ManyToOne(() => User, { nullable: false })
     receiver: User;
 
-    @Column("text")
+    @Column({type: "text", nullable: true})
     content: string;
 }
 

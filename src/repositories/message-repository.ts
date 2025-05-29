@@ -29,22 +29,42 @@ export class MessageRepository implements IMessageRepository {
         });
     }
 
-    async getUserChats(userId: string): Promise<{ userId: string, userType: "Parent" | "Psychologist" }[]> {
+    async getUserChats(userId: string): Promise<{
+        userId: string,
+        userType: "Parent" | "Psychologist",
+        name: string,
+        lastMessage: string
+      }[]> {
         const query = `
-            SELECT DISTINCT 
-            CASE 
-                WHEN "senderId" = $1 THEN "receiverId"
-                ELSE "senderId" 
-            END AS "userId",
-            CASE 
-                WHEN "senderId" = $1 THEN 'Psychologist'
-                ELSE 'Parent'
-            END AS "userType"
-        FROM message
-        WHERE "senderId" = $1 OR "receiverId" = $1
-        GROUP BY LEAST("senderId", "receiverId"), GREATEST("senderId", "receiverId"), "userId", "userType"
+          WITH user_messages AS (
+            SELECT *,
+                   CASE 
+                     WHEN "senderId" = $1 THEN "receiverId"
+                     ELSE "senderId" 
+                   END AS "chatUserId"
+            FROM message
+            WHERE "senderId" = $1 OR "receiverId" = $1
+          ),
+          latest_messages AS (
+            SELECT DISTINCT ON ("chatUserId")
+                   "chatUserId" AS "userId",
+                   CASE 
+                     WHEN "senderId" = $1 THEN 'Psychologist'
+                     ELSE 'Parent'
+                   END AS "userType",
+                   content AS "lastMessage",
+                   "createdAt"
+            FROM user_messages
+            ORDER BY "chatUserId", "createdAt" DESC
+          )
+          SELECT lm."userId",
+                 lm."userType",
+                 u.name,
+                 lm."lastMessage"
+          FROM latest_messages lm
+          JOIN "user" u ON u.id = lm."userId"
         `;
-
+      
         return await this.repo.query(query, [userId]);
-    }
-}
+      }
+}      
