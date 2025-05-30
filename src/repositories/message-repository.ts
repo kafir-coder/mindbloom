@@ -65,7 +65,7 @@ export class MessageRepository implements IMessageRepository {
         )
         SELECT 
             lm."userId",
-            u."type" AS "userType",
+            u."role" AS "userType",
             u.name,
             lm."lastMessage",
             lm."created_at"
