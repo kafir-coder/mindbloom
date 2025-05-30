@@ -65,7 +65,7 @@ export class MessageRepository implements IMessageRepository {
         )
         SELECT 
           lm."userId",
-          INITCAP(u."role") AS "userType",  -- Use actual role from user table
+          u."role" AS "userType",  -- Use actual role from user table
           u.name,
           lm."lastMessage",
           lm."created_at"
