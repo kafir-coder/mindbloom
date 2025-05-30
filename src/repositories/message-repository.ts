@@ -43,37 +43,38 @@ export class MessageRepository implements IMessageRepository {
         userId: string,
         userType: "Parent" | "Psychologist",
         name: string,
-        lastMessage: string
+        lastMessage: string,
+        created_at: string
       }[]> {
         const query = `
-        WITH user_messages AS (
-          SELECT *,
-                 CASE 
-                   WHEN "senderId" = $1 THEN "receiverId"
-                   ELSE "senderId" 
-                 END AS "chatUserId"
-          FROM message
-          WHERE "senderId" = $1 OR "receiverId" = $1
-        ),
-        latest_messages AS (
-          SELECT DISTINCT ON ("chatUserId")
-                 "chatUserId" AS "userId",
-                 content AS "lastMessage",
-                 "created_at"
-          FROM user_messages
-          ORDER BY "chatUserId", "created_at" DESC
-        )
-        SELECT 
-          lm."userId",
-          u."role" AS "userType",  -- Use actual role from user table
-          u.name,
-          lm."lastMessage",
-          lm."created_at"
-        FROM latest_messages lm
-        JOIN "user" u ON u.id = lm."userId";
-      `;
+          WITH user_messages AS (
+            SELECT *,
+                   CASE 
+                     WHEN "senderId" = $1 THEN "receiverId"
+                     ELSE "senderId" 
+                   END AS "chatUserId"
+            FROM message
+            WHERE "senderId" = $1 OR "receiverId" = $1
+          ),
+          latest_messages AS (
+            SELECT DISTINCT ON ("chatUserId")
+                   "chatUserId" AS "userId",
+                   content AS "lastMessage",
+                   "created_at"
+            FROM user_messages
+            ORDER BY "chatUserId", "created_at" DESC
+          )
+          SELECT 
+            lm."userId",
+            u."role" AS "userType",
+            u."name",
+            lm."lastMessage",
+            lm."created_at"
+          FROM latest_messages lm
+          JOIN "user" u ON u.id = lm."userId";
+        `;
       
-      return await this.repo.query(query, [userId]);
-      
+        return await this.repo.query(query, [userId]);
       }
+      
 }      
