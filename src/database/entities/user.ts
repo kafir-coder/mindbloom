@@ -46,4 +46,7 @@ export class User extends Base {
 
   @Column({nullable: true})
   socials: string
+
+  @Column({nullable: true})
+  psyCode: string
 }

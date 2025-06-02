@@ -5,12 +5,21 @@ import { IUserSvc, IUserRepository } from "../../interfaces/user";
 import bcrypt, { genSalt } from 'bcryptjs'
 import crypto from 'crypto';
 import { CustomError } from "../../errors/errors";
+import { pysCode } from "../../utils/constants/psy-codes";
+import { createUserSchema } from "../../entities/validation";
 
 export class UserSvc implements IUserSvc {
     constructor(
         private readonly userRepository: IUserRepository,
     ) {}
     async createUser(dto: CreateUserDto): Promise<User> {
+
+        try {
+            createUserSchema.parse(dto)    
+        } catch (error: any) {
+            throw new CustomError(error.toString(), 400)
+        }
+        
 
         if (dto.password.trim() == "") {
             throw new CustomError("password is empty", 400)
@@ -19,6 +28,10 @@ export class UserSvc implements IUserSvc {
 
         if (user) {
             throw new CustomError("user already exists", 400)
+        }
+
+        if (dto.role == 'Psychologist' && !pysCode.includes(dto.pyscode as string)) {
+            throw new CustomError("psycode does not exists", 400)
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -35,7 +48,8 @@ export class UserSvc implements IUserSvc {
             description: dto.description,
             image: dto.image,
             occupation: dto.occupation,
-            socials: dto.socials
+            socials: dto.socials,
+            psyCode: dto.pyscode
         })
 
         return this.getUser(id)
