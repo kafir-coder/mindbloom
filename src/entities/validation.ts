@@ -9,7 +9,7 @@ export const createUserSchema = z
     gender: z.string().min(1),
     description: z.string().optional(),
     image: z.string().url().or(z.literal("")).optional(),
-    occupation: z.string().min(1),
+    occupation: z.string().optional(),
     socials: z.string().or(z.literal("")).optional(),
     psycode: z.string().or(z.literal("")).optional(),
   })
