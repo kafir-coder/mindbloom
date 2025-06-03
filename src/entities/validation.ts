@@ -11,25 +11,25 @@ export const createUserSchema = z
     image: z.string().url().or(z.literal("")).optional(),
     occupation: z.string().min(1),
     socials: z.string().or(z.literal("")).optional(),
-    pyscode: z.string().or(z.literal("")).optional(),
+    psycode: z.string().or(z.literal("")).optional(),
   })
   .superRefine((data, ctx) => {
     const isPsychologist = data.role === "Psychologist";
-    const hasPyscode = Boolean(data.pyscode && data.pyscode.trim());
+    const hasPyscode = Boolean(data.psycode && data.psycode.trim());
 
     if (isPsychologist && !hasPyscode) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ["pyscode"],
-        message: "pyscode is required for psychologists",
+        path: ["psycode"],
+        message: "psycode is required for psychologists",
       });
     }
 
     if (!isPsychologist && hasPyscode) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        path: ["pyscode"],
-        message: "pyscode must not be set unless role is psychologist",
+        path: ["psycode"],
+        message: "psycode must not be set unless role is psychologist",
       });
     }
   });
