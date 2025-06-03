@@ -3,6 +3,7 @@ import { userSvc } from "..";
 import express from 'express';
 import { CreateKidDto, CreateUserDto } from "../entities/user";
 import { Kid } from "../database/entities/kid";
+import bcrypt, { genSalt } from 'bcryptjs'
 
 export const createUsers = async (req: Request, res: Response, next: NextFunction) => {
    try {
@@ -34,7 +35,12 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     try {
         const { id } = req.params;
         const dto = req.body as Partial<CreateUserDto>; // assuming a partial update
-        const result = await userSvc.updateUser(id, dto);
+        
+        const salt = await bcrypt.genSalt(10)
+        const passwordHash = await bcrypt.hash(dto.password as string, salt) as unknown as string
+        
+        delete dto.password
+        const result = await userSvc.updateUser(id, Object.assign(dto, {passwordHash}));
         res.status(200).json(result);
     } catch (error) {
         console.error(error);

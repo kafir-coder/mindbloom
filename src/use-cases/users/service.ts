@@ -70,11 +70,6 @@ export class UserSvc implements IUserSvc {
                 throw new CustomError("email already in use", 400);
             }
         }
-    
-        if (user.passwordHash) {
-            throw new CustomError("cannot directly update password hash", 400);
-        }
-    
         await this.userRepository.updateUser(user_id, user);
         return this.getUser(user_id);
     }
