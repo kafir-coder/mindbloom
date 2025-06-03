@@ -30,7 +30,7 @@ export class UserSvc implements IUserSvc {
             throw new CustomError("user already exists", 400)
         }
 
-        if (dto.role == 'Psychologist' && !pysCode.includes(dto.pyscode as string)) {
+        if (dto.role == 'Psychologist' && !pysCode.includes(dto.psycode as string)) {
             throw new CustomError("psycode does not exists", 400)
         }
 
@@ -49,7 +49,7 @@ export class UserSvc implements IUserSvc {
             image: dto.image,
             occupation: dto.occupation,
             socials: dto.socials,
-            psyCode: dto.pyscode
+            psycode: dto.psycode
         })
 
         return this.getUser(id)

@@ -16,5 +16,5 @@ export type CreateUserDto = {
     image: string
     occupation: string
     socials: string
-    pyscode: string
+    psycode: string
 }

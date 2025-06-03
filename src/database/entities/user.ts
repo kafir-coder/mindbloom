@@ -48,5 +48,5 @@ export class User extends Base {
   socials: string
 
   @Column({nullable: true})
-  psyCode: string
+  psycode: string
 }
