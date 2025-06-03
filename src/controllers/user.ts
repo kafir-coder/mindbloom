@@ -34,13 +34,17 @@ export const getUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const dto = req.body as Partial<CreateUserDto>; // assuming a partial update
-        
-        const salt = await bcrypt.genSalt(10)
-        const passwordHash = await bcrypt.hash(dto.password as string, salt) as unknown as string
-        
-        delete dto.password
-        const result = await userSvc.updateUser(id, Object.assign(dto, {passwordHash}));
+        let dto = req.body as Partial<CreateUserDto>; // assuming a partial update
+    
+        if (dto.password) {
+            const salt = await bcrypt.genSalt(10)
+            const passwordHash = await bcrypt.hash(dto.password as string, salt) as unknown as string
+            
+            delete dto.password
+
+            dto =  Object.assign(dto, {passwordHash})
+        }
+        const result = await userSvc.updateUser(id, dto);
         res.status(200).json(result);
     } catch (error) {
         console.error(error);
