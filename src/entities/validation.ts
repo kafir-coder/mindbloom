@@ -7,7 +7,7 @@ export const createUserSchema = z
     password: z.string().min(6),
     role: z.enum(["Parent", "Psychologist"]),
     gender: z.string().min(1),
-    description: z.string().min(1),
+    description: z.string().optional(),
     image: z.string().url().or(z.literal("")).optional(),
     occupation: z.string().min(1),
     socials: z.string().or(z.literal("")).optional(),
