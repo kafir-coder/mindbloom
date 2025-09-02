@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ADHDDiagnosis = exports.ASDDiagnosis = exports.AnswerWeight = void 0;
 const typeorm_1 = require("typeorm");
 const base_1 = require("../utils/common/entities/base");
-const kid_1 = require("../database/entities/kid");
 var AnswerWeight;
 (function (AnswerWeight) {
     AnswerWeight[AnswerWeight["yes"] = 1] = "yes";
@@ -21,10 +20,6 @@ var AnswerWeight;
 let ASDDiagnosis = class ASDDiagnosis extends base_1.Base {
 };
 exports.ASDDiagnosis = ASDDiagnosis;
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => kid_1.Kid, (kid) => kid.asdDiagnosis),
-    __metadata("design:type", kid_1.Kid)
-], ASDDiagnosis.prototype, "kid", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "date" }),
     __metadata("design:type", Date)
@@ -58,10 +53,6 @@ exports.ASDDiagnosis = ASDDiagnosis = __decorate([
 let ADHDDiagnosis = class ADHDDiagnosis extends base_1.Base {
 };
 exports.ADHDDiagnosis = ADHDDiagnosis;
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => kid_1.Kid, (kid) => kid.adhdDiagnosis),
-    __metadata("design:type", kid_1.Kid)
-], ADHDDiagnosis.prototype, "kid", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "date" }),
     __metadata("design:type", Date)

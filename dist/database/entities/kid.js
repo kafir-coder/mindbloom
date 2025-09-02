@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Kid = void 0;
 const typeorm_1 = require("typeorm");
 const user_1 = require("./user");
-const diagnosis_1 = require("../../entities/diagnosis");
 const base_1 = require("../../utils/common/entities/base");
 let Kid = class Kid extends base_1.Base {
 };
@@ -30,13 +29,25 @@ __decorate([
     __metadata("design:type", user_1.User)
 ], Kid.prototype, "parent", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => diagnosis_1.ADHDDiagnosis, (adhdDiagnosis) => adhdDiagnosis.kid, { nullable: true }),
-    __metadata("design:type", diagnosis_1.ADHDDiagnosis)
-], Kid.prototype, "adhdDiagnosis", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Kid.prototype, "asdDiagnosisPercertage", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => diagnosis_1.ASDDiagnosis, (asdDiagnosis) => asdDiagnosis.kid, { nullable: true }),
-    __metadata("design:type", diagnosis_1.ASDDiagnosis)
-], Kid.prototype, "asdDiagnosis", void 0);
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Kid.prototype, "adhdDiagnosisPercentage", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Kid.prototype, "gender", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Kid.prototype, "occupation", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Kid.prototype, "image", void 0);
 exports.Kid = Kid = __decorate([
     (0, typeorm_1.Entity)()
 ], Kid);

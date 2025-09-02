@@ -40,9 +40,41 @@ __decorate([
     __metadata("design:type", Boolean)
 ], User.prototype, "isActive", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "gender", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => kid_1.Kid, (kid) => kid.parent),
     __metadata("design:type", Array)
 ], User.prototype, "kids", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true, type: 'double precision' }),
+    __metadata("design:type", Number)
+], User.prototype, "rating", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Number)
+], User.prototype, "ratingCount", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "image", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "occupation", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "socials", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "psycode", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

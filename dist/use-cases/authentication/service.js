@@ -28,7 +28,11 @@ class AuthService {
             if (!user || !(yield bcryptjs_1.default.compare(password, user.passwordHash))) {
                 return null;
             }
-            return jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
+            return {
+                token: jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: JWT_EXPIRATION }),
+                id: user.id,
+                role: user.role
+            };
         });
     }
     verifyToken(token) {

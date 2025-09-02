@@ -25,7 +25,7 @@ __decorate([
     __metadata("design:type", user_1.User)
 ], Message.prototype, "receiver", void 0);
 __decorate([
-    (0, typeorm_1.Column)("text"),
+    (0, typeorm_1.Column)({ type: "text", nullable: true }),
     __metadata("design:type", String)
 ], Message.prototype, "content", void 0);
 exports.Message = Message = __decorate([

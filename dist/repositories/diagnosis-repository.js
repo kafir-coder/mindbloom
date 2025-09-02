@@ -22,13 +22,11 @@ class DiagnosisRepository {
     }
     getASDTest(kid_id) {
         return this.asdDiagnosisRepository.findOne({
-            where: { kid: { id: kid_id } },
             relations: ["kid"]
         });
     }
     getADHDTest(kid_id) {
         return this.adhdDiagnosisRepository.findOne({
-            where: { kid: { id: kid_id } },
             relations: ["kid"]
         });
     }

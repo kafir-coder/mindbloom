@@ -9,8 +9,10 @@ const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 function authenticateJWT(req, res, next) {
     var _a;
     const token = (_a = req.header("Authorization")) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
-    if (!token)
+    if (!token) {
         res.status(401).json({ error: "Unauthorized" });
+        return;
+    }
     try {
         const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
         //@ts-ignore
@@ -19,5 +21,6 @@ function authenticateJWT(req, res, next) {
     }
     catch (error) {
         res.status(403).json({ error: "Invalid token" });
+        return;
     }
 }

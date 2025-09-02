@@ -29,7 +29,7 @@ const service_3 = require("./use-cases/message/service");
 const message_1 = require("./controllers/message");
 const service_4 = require("./use-cases/authentication/service");
 const auth_1 = require("./controllers/auth");
-const auth_middleware_1 = require("./use-cases/authentication/auth.middleware");
+const error_1 = require("./middleware/error");
 const app = (0, express_1.default)();
 const init = () => __awaiter(void 0, void 0, void 0, function* () {
     const AppDataSource = yield (0, data_source_1.getDataSource)();
@@ -54,8 +54,9 @@ const init = () => __awaiter(void 0, void 0, void 0, function* () {
     app.use(express_1.default.json());
     app.use("/diagnosis", diagnosis_1.diagnosisRouter);
     app.use("/users", user_1.usersRouter);
-    app.use("/messages", auth_middleware_1.authenticateJWT, message_1.messageRouter);
+    app.use("/messages", message_1.messageRouter);
     app.use("/auth", auth_1.authRouter);
+    app.use(error_1.errorHandler);
     app.listen(PORT, () => {
         console.log(`Server is running on port ${config_1.default.port}`);
     });

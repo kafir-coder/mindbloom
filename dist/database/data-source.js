@@ -13,17 +13,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDataSource = exports.AppDataSource = void 0;
-const diagnosis_1 = require("../entities/diagnosis");
-const config_1 = __importDefault(require("../utils/config/config"));
-const typeorm_1 = require("typeorm");
-const { database } = config_1.default;
 require("reflect-metadata");
-const kid_1 = require("./entities/kid");
-const user_1 = require("./entities/user");
-const questions_1 = require("./entities/questions");
+const typeorm_1 = require("typeorm");
+const diagnosis_1 = require("../entities/diagnosis");
 const message_1 = require("../entities/message");
+const config_1 = __importDefault(require("../utils/config/config"));
+const kid_1 = require("./entities/kid");
+const questions_1 = require("./entities/questions");
+const user_1 = require("./entities/user");
+const { database } = config_1.default;
 exports.AppDataSource = new typeorm_1.DataSource({
-    type: "postgres",
+    type: 'postgres',
     host: database.host,
     port: database.port,
     username: database.user,
@@ -33,11 +33,16 @@ exports.AppDataSource = new typeorm_1.DataSource({
     logging: true,
     entities: [user_1.User, kid_1.Kid, diagnosis_1.ADHDDiagnosis, diagnosis_1.ASDDiagnosis, questions_1.Question, message_1.Message],
     subscribers: [],
-    migrations: [""],
+    migrations: [''],
+    ssl: process.env.SSL == 'true'
+        ? {
+            rejectUnauthorized: process.env.NODE_ENV === 'production',
+        }
+        : false,
 });
 exports.AppDataSource.initialize()
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Connection initialized with database...");
+    console.log('Connection initialized with database...');
 }))
     .catch((error) => console.log(error));
 const getDataSource = (delay = 3000) => {
@@ -48,7 +53,7 @@ const getDataSource = (delay = 3000) => {
             if (exports.AppDataSource.isInitialized)
                 resolve(exports.AppDataSource);
             else
-                reject("Failed to create connection with database");
+                reject('Failed to create connection with database');
         }, delay);
     });
 };

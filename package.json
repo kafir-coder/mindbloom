@@ -7,9 +7,9 @@
     "build": "rimraf ./dist & tsc",
     "start": "node ./dist/index.js",
     "dev": "nodemon",
-    "start:db": "docker-compose up -d db",
+    "start:db": "docker compose up -d db",
     "docker:build": "docker build -t mindbloom .",
-    "docker:start": "docker-compose up -d"
+    "docker:start": "docker compose up -d"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.3",

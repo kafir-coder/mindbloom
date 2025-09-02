@@ -19,6 +19,11 @@ class UserRepository {
         this.userRepository = data_source_1.AppDataSource.getRepository(user_1.User);
         this.kidRepository = data_source_1.AppDataSource.getRepository(kid_1.Kid);
     }
+    updateUser(id, user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.userRepository.update(id, user);
+        });
+    }
     getUserByEmail(email) {
         return this.userRepository.findOneBy({
             email
@@ -70,17 +75,18 @@ class UserRepository {
         });
     }
     listKids() {
-        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10, filters) {
+        return __awaiter(this, arguments, void 0, function* (page = 1, limit = 10, parentId, filters) {
             const offset = (page - 1) * limit;
             const where = {};
             if (filters === null || filters === void 0 ? void 0 : filters.name)
                 where.name = (0, typeorm_1.ILike)(`%${filters.name}%`);
-            if (filters === null || filters === void 0 ? void 0 : filters.parentId)
-                where.parent = { id: filters.parentId };
+            if (parentId && !(filters === null || filters === void 0 ? void 0 : filters.all))
+                where.parent = { id: parentId };
             const [kids, totalCount] = yield this.kidRepository.findAndCount({
                 where,
                 take: limit,
-                skip: offset
+                skip: offset,
+                relations: ['parent']
             });
             return {
                 data: kids,
@@ -88,6 +94,11 @@ class UserRepository {
                 totalPages: Math.ceil(totalCount / limit),
                 currentPage: page
             };
+        });
+    }
+    updateKid(id, kid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.kidRepository.update(id, kid);
         });
     }
     getParentKids(id) {

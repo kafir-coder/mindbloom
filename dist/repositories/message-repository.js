@@ -28,30 +28,50 @@ class MessageRepository {
     }
     getMessages(parentId, psychologistId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.repo.find({
-                where: [
-                    { sender: { id: parentId }, receiver: { id: psychologistId } },
-                    { sender: { id: psychologistId }, receiver: { id: parentId } },
-                ],
-                order: { createad_at: "ASC" }
-            });
+            return yield this.repo.createQueryBuilder('message')
+                .select([
+                'message.id',
+                'message.content',
+                'message.created_at',
+                'sender.id',
+                'receiver.id'
+            ])
+                .leftJoin('message.sender', 'sender')
+                .leftJoin('message.receiver', 'receiver')
+                .where('(sender.id = :parentId AND receiver.id = :psychologistId) OR ' +
+                '(sender.id = :psychologistId AND receiver.id = :parentId)', { parentId, psychologistId })
+                .orderBy('message.created_at', 'ASC')
+                .getMany();
         });
     }
     getUserChats(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = `
-            SELECT DISTINCT 
-            CASE 
-                WHEN "senderId" = $1 THEN "receiverId"
-                ELSE "senderId" 
-            END AS "userId",
-            CASE 
-                WHEN "senderId" = $1 THEN 'Psychologist'
-                ELSE 'Parent'
-            END AS "userType"
-        FROM message
-        WHERE "senderId" = $1 OR "receiverId" = $1
-        GROUP BY LEAST("senderId", "receiverId"), GREATEST("senderId", "receiverId"), "userId", "userType"
+          WITH user_messages AS (
+            SELECT *,
+                   CASE 
+                     WHEN "senderId" = $1 THEN "receiverId"
+                     ELSE "senderId" 
+                   END AS "chatUserId"
+            FROM message
+            WHERE "senderId" = $1 OR "receiverId" = $1
+          ),
+          latest_messages AS (
+            SELECT DISTINCT ON ("chatUserId")
+                   "chatUserId" AS "userId",
+                   content AS "lastMessage",
+                   "created_at"
+            FROM user_messages
+            ORDER BY "chatUserId", "created_at" DESC
+          )
+          SELECT 
+            lm."userId",
+            u."role" AS "userType",
+            u."name",
+            lm."lastMessage",
+            lm."created_at"
+          FROM latest_messages lm
+          JOIN "user" u ON u.id = lm."userId";
         `;
             return yield this.repo.query(query, [userId]);
         });
