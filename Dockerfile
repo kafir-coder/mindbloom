@@ -21,13 +21,19 @@ WORKDIR /usr/src/app
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=yarn.lock,target=yarn.lock \
     --mount=type=cache,target=/root/.yarn \
-    yarn install --production --frozen-lockfile
-
-# Run the application as a non-root user.
-USER node
+    yarn install --frozen-lockfile
 
 # Copy the rest of the source files into the image.
 COPY . .
+
+# Build the application
+RUN yarn build
+
+# Remove dev dependencies to reduce image size
+RUN yarn install --production --frozen-lockfile && yarn cache clean
+
+# Run the application as a non-root user.
+USER node
 
 # Expose the port that the application listens on.
 EXPOSE 8080
